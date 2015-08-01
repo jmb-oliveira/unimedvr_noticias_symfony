@@ -6,13 +6,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class NoticiasController extends Controller
 {
     /**
-     * @Route("/app/example", name="homepage")
+     * @Route("/", name="noticias_home")
      */
     public function indexAction()
     {
-        return $this->render('default/index.html.twig');
+        return $this->render('noticias/index.html.twig', array('title' => 'Notícias'));
     }
 }
