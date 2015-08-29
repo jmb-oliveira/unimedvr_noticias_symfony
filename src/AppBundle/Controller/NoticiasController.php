@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\MessageSelector;
 
 class NoticiasController extends Controller
 {
@@ -22,7 +24,7 @@ class NoticiasController extends Controller
     				->getQuery();
 
     	$paginator = $this->get('knp_paginator');
-    	$pagination = $paginator->paginate($query, $page, 10);
+    	$pagination = $paginator->paginate($query, $page, 5);
 
         return $this->render('noticias/index.html.twig', array('title' => 'Notícias', 'pagination' => $pagination));
     }

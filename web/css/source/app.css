@@ -397,6 +397,10 @@ body > .container {
 		color: #045a04;
 		text-decoration: none;
 	}
+	.nav-pagination {
+		text-align:center;
+		margin-top: 10px;
+	}
 	
 	/*
 	========== Galeria de imagens uploader ==========
