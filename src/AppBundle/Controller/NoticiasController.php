@@ -5,13 +5,11 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\MessageSelector;
 
 class NoticiasController extends Controller
 {
     /**
-     * @Route("/{page}", defaults={"page" = 1}, name="noticias_home")
+     * @Route("/{search}/{page}", defaults={"page" = 1}, name="noticias_home")
      */
     public function indexAction($page)
     {

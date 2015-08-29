@@ -27,7 +27,7 @@
 			{% for noticia in pagination %}
 				
 				<div class="news-box">
-					<h2><a href="{{ path('noticias_detalhes') }}" title="Ver notícia completa">{{ noticia.titulo }}</a></h2>
+					<h2><a href="{{ path('noticias_detalhes') }}/{{ noticia.id }}" title="Ver notícia completa">{{ noticia.titulo }}</a></h2>
 					<p class="news-datetime">Em {{ noticia.getPublicadaEm|date("d/m/Y \\à\\s H:i") }}</p>
 					<p>{{ noticia.texto }}</p>
 				 </div>
