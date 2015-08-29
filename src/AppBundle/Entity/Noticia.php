@@ -36,16 +36,16 @@ class Noticia
 	/** @ORM\Column(type="string", length=255) **/
 	protected $video_url;
 
-	/** @ORM\Column(type="integer") **/
+	/** @ORM\Column(type="datetime") **/
 	protected $publicada_em;
 
 	/** @ORM\Column(type="integer") **/
 	protected $id_autor;
 
-	/** @ORM\Column(type="integer") **/
+	/** @ORM\Column(type="integer", nullable=true) **/
 	protected $updated_on;
 
-	/** @ORM\Column(type="integer") **/
+	/** @ORM\Column(type="integer", nullable=true) **/
 	protected $removed_on;
 
     /**
