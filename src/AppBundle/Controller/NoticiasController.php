@@ -9,22 +9,31 @@ use Symfony\Component\HttpFoundation\Request;
 class NoticiasController extends Controller
 {
     /**
-     * @Route("/{search}/{page}", defaults={"page" = 1}, name="noticias_home")
+     * @Route("/{search}/{page}", defaults={"search" = "todas", "page" = 1}, name="noticias_home")
      */
-    public function indexAction($page)
+    public function indexAction($search, $page)
     {
+        $request = Request::createFromGlobals();
+
+        $form = $this->createFormBuilder()
+                    ->add('search', 'text', array('required' => false, 'attr' => array('class' => "form-control", 'placeholder' => "Digite o que você procura e tecle enter")))
+                    ->getForm();
+        
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()){
+            $data = $form->getData();
+
+            return ($data['search'] == '') ? $this->redirect($this->generateUrl('noticias_home')) : $this->redirect($this->generateUrl('noticias_home', array('search' => $data['search'])));
+        }
+
     	$repo = $this->getDoctrine()
     			   ->getRepository('AppBundle:Noticia');
 
-    	$query = $repo->createQueryBuilder('t1')
-    				->where('t1.removed_on IS NULL')
-    				->orderBy('t1.publicada_em', 'DESC')
-    				->getQuery();
-
     	$paginator = $this->get('knp_paginator');
-    	$pagination = $paginator->paginate($query, $page, 5);
+    	$pagination = $paginator->paginate($repo->getNoticias($search), $page, 5);
 
-        return $this->render('noticias/index.html.twig', array('title' => 'Notícias', 'pagination' => $pagination));
+        return $this->render('noticias/index.html.twig', array('title' => 'Notícias', 'form' => $form->createView(), 'pagination' => $pagination));
     }
 
     /**
