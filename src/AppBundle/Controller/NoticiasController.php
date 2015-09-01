@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Noticia;
 
 class NoticiasController extends Controller
 {
@@ -33,7 +34,7 @@ class NoticiasController extends Controller
         $itemsPerPage = 5;
     	$paginator = $this->get('knp_paginator');
     	$pagination = $paginator->paginate($repo->getNoticias($search), $page, $itemsPerPage);
-        $maxPage = ceil($pagination->getTotalItemCount() / $itemsPerPage);
+        $maxPage = ($pagination->getTotalItemCount() > 0) ? ceil($pagination->getTotalItemCount() / $itemsPerPage) : 1;
 
         if($page > $maxPage){
             throw $this->createNotFoundException();
@@ -43,18 +44,10 @@ class NoticiasController extends Controller
     }
 
     /**
-     * @Route("/noticias/detalhes/{id}", defaults={"id" = null}, name="show_noticia")
+     * @Route("/noticias/detalhes/{id}", name="show_noticia")
      */
-    public function showAction($id)
+    public function showAction(Noticia $noticia)
     {
-        $noticia = $this->getDoctrine()
-                        ->getRepository('AppBundle:Noticia')
-                        ->find($id);
-
-        if(!$noticia){
-            throw $this->createNotFoundException();
-        }
-
         return $this->render('noticias/show_noticia.html.twig', array('title' => $noticia->getTitulo(), 'noticia' => $noticia));
     }
 }

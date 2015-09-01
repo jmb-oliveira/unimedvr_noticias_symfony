@@ -3,13 +3,13 @@
 {% block article %}
 
 	{% if pagination.getTotalItemCount == 0 %}
-		<div class="alert alert-info">Não há notícias cadastradas no momento. Por favor, volte mais tarde.</div>
+		<div class="alert alert-info">Não há notícias cadastradas nessa categoria. Por favor, volte mais tarde.</div>
 	{% else %}
 		{# LISTAGEM DE REGISTROS #}
 			{% for noticia in pagination %}
 				
 				<div class="news-box">
-					<h2><a href="{{ path('show_noticia') }}/{{ noticia.id }}" title="Ver notícia completa">{{ noticia.titulo }}</a></h2>
+					<h2><a href="{{ path('show_noticia', {'id': noticia.id}) }}" title="Ver notícia completa">{{ noticia.titulo }}</a></h2>
 					<p class="news-datetime">Em {{ noticia.getPublicadaEm|date("d/m/Y \\à\\s H:i") }}</p>
 					<p>{{ noticia.texto }}</p>
 				 </div>

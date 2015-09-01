@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Categoria;
 
 class CategoriasController extends Controller
 {
@@ -19,7 +20,7 @@ class CategoriasController extends Controller
         $itemsPerPage = 5;
     	$paginator = $this->get('knp_paginator');
     	$pagination = $paginator->paginate($repo->getCategorias(), $page, 5);
-        $maxPage = ceil($pagination->getTotalItemCount() / $itemsPerPage);
+        $maxPage = ($pagination->getTotalItemCount() > 0) ? ceil($pagination->getTotalItemCount() / $itemsPerPage) : 1;
 
         if($page > $maxPage){
             throw $this->createNotFoundException();
@@ -29,22 +30,14 @@ class CategoriasController extends Controller
     }
 
     /**
-     * @Route("/categorias/noticias/{id}/{page}", defaults={"id" = null, "page" = 1}, name="show_categoria_noticias")
+     * @Route("/categorias/noticias/{id}/{page}", defaults={"page" = 1}, name="show_categoria_noticias")
      */
-    public function showNoticiasAction($id, $page)
+    public function showNoticiasAction(Categoria $categoria, $page)
     {
-        $categoria = $this->getDoctrine()
-                    ->getRepository('AppBundle:Categoria')
-                    ->find($id);
-
-        if(!$categoria){
-            throw $this->createNotFoundException();
-        }
-
         $itemsPerPage = 5;
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate($categoria->getNoticias(), $page, 5);
-        $maxPage = ceil($pagination->getTotalItemCount() / $itemsPerPage);
+        $maxPage = ($pagination->getTotalItemCount() > 0) ? ceil($pagination->getTotalItemCount() / $itemsPerPage) : 1;
 
         if($page > $maxPage){
             throw $this->createNotFoundException();
