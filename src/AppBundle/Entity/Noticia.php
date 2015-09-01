@@ -22,7 +22,7 @@ class Noticia
      * @ORM\ManyToOne(targetEntity="Categoria", inversedBy="noticias")
      * @ORM\JoinColumn(name="id_categoria", referencedColumnName="id")
      **/
-    protected $id_categoria;
+    protected $categoria;
 
 	/** @ORM\Column(type="string", length=200) **/
 	protected $titulo;
@@ -289,5 +289,28 @@ class Noticia
     public function getRemovedOn()
     {
         return $this->removed_on;
+    }
+
+    /**
+     * Set categoria
+     *
+     * @param \AppBundle\Entity\Categoria $categoria
+     * @return Noticia
+     */
+    public function setCategoria(\AppBundle\Entity\Categoria $categoria = null)
+    {
+        $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * Get categoria
+     *
+     * @return \AppBundle\Entity\Categoria 
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
     }
 }

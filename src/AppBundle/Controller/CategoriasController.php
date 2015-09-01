@@ -23,10 +23,17 @@ class CategoriasController extends Controller
     }
 
     /**
-     * @Route("/categorias/detalhes/{id}", defaults={"id" = null}, name="show_categoria_noticias")
+     * @Route("/categorias/noticias/{id}/{page}", defaults={"id" = null, "page" = 1}, name="show_categoria_noticias")
      */
-    public function showNoticiasAction($id)
+    public function showNoticiasAction($id, $page)
     {
+        $repo = $this->getDoctrine()
+                    ->getRepository('AppBundle:Categoria')
+                    ->find($id);
 
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($repo->getNoticias(), $page, 5);
+
+        return $this->render('categorias/show_noticias.html.twig', array('title' => 'Categoria: '. $repo->getDcategoria(), 'pagination' => $pagination));
     }
 }

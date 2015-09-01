@@ -39,7 +39,7 @@ class Categoria
 	/** @ORM\Column(type="integer", nullable=true) **/
 	protected $removed_on;
 
-    /** @ORM\OneToMany(targetEntity="Noticia", mappedBy="Categoria") **/
+    /** @ORM\OneToMany(targetEntity="Noticia", mappedBy="categoria") **/
     protected $noticias;
 
     public function __construct()
