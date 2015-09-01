@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block article %}
+
+	{% if pagination.getTotalItemCount == 0 %}
+		<div class="alert alert-info">Não há categorias cadastradas no momento. Por favor, volte mais tarde.</div>
+	{% else %}
+		{# LISTAGEM DE REGISTROS #}
+			{% for categoria in pagination %}
+								
+				<h3><a href="{{ path('categoria_detalhes') }}/{{ categoria.id }}" title="Ver notícias desta categoria">&bull; {{ categoria.dcategoria }}</a></h3>				 
+
+			{% endfor %}
+		{# LISTAGEM DE REGISTROS #}
+		
+		{# PAGINATION #}
+			<div class="nav-pagination">
+			    {{ knp_pagination_render(pagination) }}
+			</div>
+		{# PAGINATION #}
+	{% endif %}
+{% endblock %}
