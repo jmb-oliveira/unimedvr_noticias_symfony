@@ -16,8 +16,14 @@ class CategoriasController extends Controller
     	$repo = $this->getDoctrine()
     			   ->getRepository('AppBundle:Categoria');
 
+        $itemsPerPage = 5;
     	$paginator = $this->get('knp_paginator');
     	$pagination = $paginator->paginate($repo->getCategorias(), $page, 5);
+        $maxPage = ceil($pagination->getTotalItemCount() / $itemsPerPage);
+
+        if($page > $maxPage){
+            throw $this->createNotFoundException();
+        }
 
         return $this->render('categorias/index.html.twig', array('title' => 'Categorias', 'pagination' => $pagination));
     }
@@ -27,13 +33,23 @@ class CategoriasController extends Controller
      */
     public function showNoticiasAction($id, $page)
     {
-        $repo = $this->getDoctrine()
+        $categoria = $this->getDoctrine()
                     ->getRepository('AppBundle:Categoria')
                     ->find($id);
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate($repo->getNoticias(), $page, 5);
+        if(!$categoria){
+            throw $this->createNotFoundException();
+        }
 
-        return $this->render('categorias/show_noticias.html.twig', array('title' => 'Categoria: '. $repo->getDcategoria(), 'pagination' => $pagination));
+        $itemsPerPage = 5;
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate($categoria->getNoticias(), $page, 5);
+        $maxPage = ceil($pagination->getTotalItemCount() / $itemsPerPage);
+
+        if($page > $maxPage){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('categorias/show_noticias.html.twig', array('title' => 'Categoria: '. $categoria->getDcategoria(), 'pagination' => $pagination));
     }
 }

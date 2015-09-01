@@ -30,8 +30,14 @@ class NoticiasController extends Controller
     	$repo = $this->getDoctrine()
     			   ->getRepository('AppBundle:Noticia');
 
+        $itemsPerPage = 5;
     	$paginator = $this->get('knp_paginator');
-    	$pagination = $paginator->paginate($repo->getNoticias($search), $page, 5);
+    	$pagination = $paginator->paginate($repo->getNoticias($search), $page, $itemsPerPage);
+        $maxPage = ceil($pagination->getTotalItemCount() / $itemsPerPage);
+
+        if($page > $maxPage){
+            throw $this->createNotFoundException();
+        }
 
         return $this->render('noticias/index.html.twig', array('title' => 'Notícias', 'form' => $form->createView(), 'pagination' => $pagination));
     }
