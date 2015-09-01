@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+ {% block container_header %}
+    <header>
+        <h1>{{ title }}</h1>
+        <p class="news-datetime">Publicada em {{ noticia.getPublicadaEm|date("d/m/Y \\à\\s H:i") }}</p>
+    </header>
+{% endblock %}
+
+{% block article %}
+
+	<p>{{ noticia.texto|nl2br }}</p>
+	
+{% endblock %}

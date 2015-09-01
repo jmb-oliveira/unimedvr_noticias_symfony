@@ -41,6 +41,14 @@ class NoticiasController extends Controller
      */
     public function showAction($id)
     {
+        $noticia = $this->getDoctrine()
+                        ->getRepository('AppBundle:Noticia')
+                        ->find($id);
 
+        if(!$noticia){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('noticias/show_noticia.html.twig', array('title' => $noticia->getTitulo(), 'noticia' => $noticia));
     }
 }
