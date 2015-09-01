@@ -8,7 +8,7 @@
 		{# LISTAGEM DE REGISTROS #}
 			{% for categoria in pagination %}
 								
-				<h3><a href="{{ path('categoria_detalhes') }}/{{ categoria.id }}" title="Ver notícias desta categoria">&bull; {{ categoria.dcategoria }}</a></h3>				 
+				<h3><a href="{{ path('show_categoria_noticias') }}/{{ categoria.id }}" title="Ver notícias desta categoria">&bull; {{ categoria.dcategoria }}</a></h3>				 
 
 			{% endfor %}
 		{# LISTAGEM DE REGISTROS #}

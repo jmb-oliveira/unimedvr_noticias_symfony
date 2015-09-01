@@ -23,9 +23,9 @@ class CategoriasController extends Controller
     }
 
     /**
-     * @Route("/categorias/detalhes/{id}", defaults={"id" = null}, name="categoria_detalhes")
+     * @Route("/categorias/detalhes/{id}", defaults={"id" = null}, name="show_categoria_noticias")
      */
-    public function detalhesAction($id)
+    public function showNoticiasAction($id)
     {
 
     }

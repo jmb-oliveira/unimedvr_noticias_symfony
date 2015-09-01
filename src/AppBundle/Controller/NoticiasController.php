@@ -37,9 +37,9 @@ class NoticiasController extends Controller
     }
 
     /**
-     * @Route("/noticias/detalhes", name="noticias_detalhes")
+     * @Route("/noticias/detalhes/{id}", defaults={"id" = null}, name="show_noticia")
      */
-    public function detalhesAction()
+    public function showAction($id)
     {
 
     }
