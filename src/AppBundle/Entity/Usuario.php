@@ -3,48 +3,94 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\Usuario")
  * @ORM\Table(name="unmd_usuarios")
  */
 
-class Usuario
+class Usuario implements UserInterface, \Serializable
 {
 	/**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-	protected $id;
-
-    /** @ORM\Column(type="boolean", options={"default" = 1, "comment" = "1- Autor, 2- Admin"}) **/
-    protected $acesso;
-
-    /** @ORM\Column(type="boolean", options={"default" = 1}) **/
-    protected $habilitado;  
+	private $id; 
 
 	/** @ORM\Column(type="string", length=60) **/
-	protected $dusuario;
+	private $name;
 
     /** @ORM\Column(type="string", length=60) **/
-    protected $login;
+    private $username;
 
     /** @ORM\Column(type="string", length=255) **/
-    protected $senha;
+    private $password;
 
     /** @ORM\Column(type="string", length=255) **/
-    protected $email;
+    private $email;
 
-    /** @ORM\Column(type="integer") **/
-    protected $created_on;
+    /** @ORM\Column(name="is_active", type="boolean") **/
+    private $isActive;
 
-	/** @ORM\Column(type="integer", nullable=true) **/
-	protected $updated_on;
+    /** @ORM\Column(type="boolean", options={"default" = 1, "comment" = "1- Author, 2- Admin"}) **/
+    private $access_level;
 
-	/** @ORM\Column(type="integer", nullable=true) **/
-	protected $removed_on;    
+    private $roles;
 
+    public function __construct()
+    {
+        $this->isActive = true;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
+    }
 
     /**
      * Get id
@@ -57,118 +103,52 @@ class Usuario
     }
 
     /**
-     * Set acesso
+     * Set name
      *
-     * @param boolean $acesso
+     * @param string $name
      * @return Usuario
      */
-    public function setAcesso($acesso)
+    public function setName($name)
     {
-        $this->acesso = $acesso;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get acesso
-     *
-     * @return boolean 
-     */
-    public function getAcesso()
-    {
-        return $this->acesso;
-    }
-
-    /**
-     * Set habilitado
-     *
-     * @param boolean $habilitado
-     * @return Usuario
-     */
-    public function setHabilitado($habilitado)
-    {
-        $this->habilitado = $habilitado;
-
-        return $this;
-    }
-
-    /**
-     * Get habilitado
-     *
-     * @return boolean 
-     */
-    public function getHabilitado()
-    {
-        return $this->habilitado;
-    }
-
-    /**
-     * Set dusuario
-     *
-     * @param string $dusuario
-     * @return Usuario
-     */
-    public function setDusuario($dusuario)
-    {
-        $this->dusuario = $dusuario;
-
-        return $this;
-    }
-
-    /**
-     * Get dusuario
+     * Get name
      *
      * @return string 
      */
-    public function getDusuario()
+    public function getName()
     {
-        return $this->dusuario;
+        return $this->name;
     }
 
     /**
-     * Set login
+     * Set username
      *
-     * @param string $login
+     * @param string $username
      * @return Usuario
      */
-    public function setLogin($login)
+    public function setUsername($username)
     {
-        $this->login = $login;
+        $this->username = $username;
 
         return $this;
     }
 
     /**
-     * Get login
+     * Set password
      *
-     * @return string 
-     */
-    public function getLogin()
-    {
-        return $this->login;
-    }
-
-    /**
-     * Set senha
-     *
-     * @param string $senha
+     * @param string $password
      * @return Usuario
      */
-    public function setSenha($senha)
+    public function setPassword($password)
     {
-        $this->senha = $senha;
+        $this->password = $password;
 
         return $this;
-    }
-
-    /**
-     * Get senha
-     *
-     * @return string 
-     */
-    public function getSenha()
-    {
-        return $this->senha;
     }
 
     /**
@@ -195,71 +175,48 @@ class Usuario
     }
 
     /**
-     * Set created_on
+     * Set isActive
      *
-     * @param integer $createdOn
+     * @param boolean $isActive
      * @return Usuario
      */
-    public function setCreatedOn($createdOn)
+    public function setIsActive($isActive)
     {
-        $this->created_on = $createdOn;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
     /**
-     * Get created_on
+     * Get isActive
      *
-     * @return integer 
+     * @return boolean 
      */
-    public function getCreatedOn()
+    public function getIsActive()
     {
-        return $this->created_on;
+        return $this->isActive;
     }
 
     /**
-     * Set updated_on
+     * Set access_level
      *
-     * @param integer $updatedOn
+     * @param boolean $accessLevel
      * @return Usuario
      */
-    public function setUpdatedOn($updatedOn)
+    public function setAccessLevel($accessLevel)
     {
-        $this->updated_on = $updatedOn;
+        $this->access_level = $accessLevel;
 
         return $this;
     }
 
     /**
-     * Get updated_on
+     * Get access_level
      *
-     * @return integer 
+     * @return boolean 
      */
-    public function getUpdatedOn()
+    public function getAccessLevel()
     {
-        return $this->updated_on;
-    }
-
-    /**
-     * Set removed_on
-     *
-     * @param integer $removedOn
-     * @return Usuario
-     */
-    public function setRemovedOn($removedOn)
-    {
-        $this->removed_on = $removedOn;
-
-        return $this;
-    }
-
-    /**
-     * Get removed_on
-     *
-     * @return integer 
-     */
-    public function getRemovedOn()
-    {
-        return $this->removed_on;
+        return $this->access_level;
     }
 }

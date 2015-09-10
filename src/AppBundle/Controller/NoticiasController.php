@@ -10,7 +10,9 @@ use AppBundle\Entity\Noticia;
 class NoticiasController extends Controller
 {
     /**
-     * @Route("/{search}/{page}", defaults={"search" = "todas", "page" = 1}, name="noticias_home")
+     * @Route("/{search}/{page}", defaults={"search" = "todas", "page" = 1}, name="noticias_home", requirements={
+     *     "search": "^(.(?<!admin))*?$"
+     * })
      */
     public function indexAction($search, $page)
     {

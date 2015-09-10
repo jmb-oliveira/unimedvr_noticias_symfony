@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    
+    <!-- Navegador obsoleto para o IE < 9 -->
+    <!--[IF lt IE 9]> <script type="text/javascript">location="http://browsehappy.com/"</script> <![endif]-->
+        
+    <!-- Meta
+    ================================================== -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link
+    ================================================== -->
+    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon" sizes="64x64">
+    <link href="{{ asset('assets/img/favicon.ico') }}" rel="shortcut icon" type="image/x-icon" />
+
+    {% block stylesheets %}
+        <link href="{{ asset('css/minify/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/source/login.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    <title>Login - Unimed Volta Redonda</title>
+    
+</head>
+
+<body>
+
+    <section class="container">
+    
+        <!-- Logotipo -->
+        <div id="logotipo">
+            <img src="{{ asset('img/logotipoUnimed.png') }}" alt="Unimed Volta Redonda" />
+        </div>
+        
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+        
+        <!-- Formulário --> 
+        <form action="{{ path('login_check') }}" method="post" class="form-signin">
+             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            
+            <h2 class="form-signin-heading">Login</h2>          
+            <p>Acesso de autores e administradores.</p>                     
+            
+            <div class="form-group">
+              <input type="text" name="_username" class="form-control" placeholder="Usuário" autofocus value="admin">
+            </div>          
+            
+            <div class="form-group">
+                <input type="password" name="_password" class="form-control" placeholder="Senha" value="admin">     
+            </div>  
+            
+            <input type="submit" name="submit" value="Entrar" class="btn btn-lg btn-success btn-block"/>
+            
+        </form>
+
+    </section>
+
+</body>
+</html>
