@@ -3,8 +3,9 @@
 security:
 
     encoders:
-        AppBundle\Entity\Usuario:
+         AppBundle\Entity\Usuario:
             algorithm: bcrypt
+            cost: 12
 
 
     providers:

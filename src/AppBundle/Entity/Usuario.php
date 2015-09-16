@@ -34,7 +34,7 @@ class Usuario implements UserInterface, \Serializable
     /** @ORM\Column(name="is_active", type="boolean") **/
     private $isActive;
 
-    /** @ORM\Column(type="boolean", options={"default" = 1, "comment" = "1- Author, 2- Admin"}) **/
+    /** @ORM\Column(type="smallint", options={"default" = 1, "comment" = "(1) Author, (2) Admin"}) **/
     private $access_level;
 
     private $roles;
@@ -61,7 +61,19 @@ class Usuario implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return $this->roles;
+        switch ($this->getAccessLevel()) {
+            case '1':
+                return array('ROLE_AUTHOR');
+                break;
+
+            case '2':
+                return array('ROLE_ADMIN');
+                break;
+            
+            default:
+                return array();
+                break;
+        }
     }
 
     public function eraseCredentials()
@@ -74,9 +86,7 @@ class Usuario implements UserInterface, \Serializable
         return serialize(array(
             $this->id,
             $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
+            $this->password,            
         ));
     }
 
@@ -86,9 +96,7 @@ class Usuario implements UserInterface, \Serializable
         list (
             $this->id,
             $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
+            $this->password,        
         ) = unserialize($serialized);
     }
 

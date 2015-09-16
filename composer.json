@@ -23,7 +23,8 @@
         "knplabs/knp-paginator-bundle": "~2.4"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "ircmaxell/password-compat": "~1.0.3"
     },
     "scripts": {
         "post-root-package-install": [

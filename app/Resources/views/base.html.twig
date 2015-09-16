@@ -46,7 +46,30 @@
                                 <li><a href="{{ path('noticias_home') }}" class="btn btn-success">Notícias</a></li>
                                 <li><a href="{{ path('noticias_home') }}" class="btn-collapse">Notícias</a></li>
                                 <li><a href="{{ path('categorias_list') }}">Categorias</a></li>
-                                <li><a href="{{ path('login_route') }}">Login</a></li>                                    
+                                
+
+                                {% if app.user and is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">Cadastros <b class="caret"></b></a>
+                                        <ul class="dropdown-menu dropdown-menu-arrow">
+                                            <li><a href="#">Notícias</a></li>
+                                            <li><a href="#">Categorias</a></li>
+
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                <li><a href="#">Contas de Usuário</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li><a href="#">Logs</a></li>
+                                    {% endif %}
+
+                                {% else %}
+                                    <li><a href="{{ path('login_route') }}">Login</a></li>
+                                {% endif %}
+
+                                <li><a href="#">Sair</a></li>
 
                             </ul>
                         </nav>
