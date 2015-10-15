@@ -53,7 +53,7 @@
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">Cadastros <b class="caret"></b></a>
                                         <ul class="dropdown-menu dropdown-menu-arrow">
                                             <li><a href="#">Notícias</a></li>
-                                            <li><a href="#">Categorias</a></li>
+                                            <li><a href="{{ path('adm_categorias_grid') }}">Categorias</a></li>
 
                                             {% if is_granted('ROLE_ADMIN') %}
                                                 <li><a href="#">Contas de Usuário</a></li>
@@ -116,5 +116,8 @@
             <script type="text/javascript" src="{{ asset('js/source/bootstrap-hover-dropdown.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/source/app.js') }}"></script>
         {% endblock %}
+
+        {% block extrajs %}{% endblock %}
+        
     </body>
 </html>

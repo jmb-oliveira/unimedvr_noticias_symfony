@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block container_header %}
+    <header id="titulo_principal">
+        <h1>{{ title }}</h1>
+        <div class="badge" data-toggle="tooltip" data-placement="right" title="Total de registros">{{ total_rows }}</div>
+    </header>
+{% endblock %}
+
+{% block article %}
+
+	<!-- Sidebar -->
+	<div class="row sidebar">
+	
+		<!-- Botões -->
+		<div class="col-md-7 col-xs-6 pull-left">
+			<a href="{{ path('adm_categorias_insert') }}" class="btn btn-primary">Inserir</a>
+		</div>						
+	
+	</div>
+	
+	<div class="both"></div>
+
+	{% if pagination.getTotalItemCount == 0 %}
+		<div class="alert alert-info">Não há registros cadastradas no momento.</div>
+	{% else %}
+
+		<!-- Grid -->
+		<table class="table table-bordered">
+			<thead>
+				<tr class="table-title">
+					<th>Categoria</th>
+					<th class="col-md-2 text-center">Visível em Desktop</th>
+					<th class="col-md-2 text-center">Visível em Mobile</th>						
+					<th class="col-md-1 col-xs-2 text-center">::</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			{# LISTAGEM DE REGISTROS #}
+				{% for categoria in pagination %}				
+							<tr>
+								<td>{{ categoria.dcategoria }}</td>						
+								<td class="text-center">{{ categoria.getVisivelDesktop() ? 'Sim' : 'Não' }}</td>
+								<td class="text-center">{{ categoria.getVisivelMobile() ? 'Sim' : 'Não' }}</td>
+								<td class="text-center">
+									<div class="btn-group">
+									  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> <span class="hidden-510">Ações</span> <span class="caret"></span> </button>
+									  <ul class="dropdown-menu pull-right text-left" role="menu">
+									  	<li><a href="{{ path('adm_categorias_edit', {'id': categoria.id}) }}"><span class="glyphicon glyphicon-pencil"></span> Editar</a></li>			
+										<li data-id-registro="{{ categoria.id }}"><a style="cursor:pointer" class="remover"><span class="glyphicon glyphicon-trash"></span> Remover</a></li>
+									</ul>
+									</div>			
+								</td>
+							</tr>
+				{% endfor %}
+			{# LISTAGEM DE REGISTROS #}
+
+			</tbody>
+		</table>
+		
+		{# PAGINATION #}
+			<div class="nav-pagination">
+			    {{ knp_pagination_render(pagination) }}
+			</div>
+		{# PAGINATION #}
+	{% endif %}
+{% endblock %}
+
+{% block extrajs %}
+	<script type="text/javascript">
+		$(function(){
+			
+			$('.remover').click(function(){
+				var id = $(this).parent().attr('data-id-registro');
+
+				bootbox.confirm('Você está prestes a remover um registro.<br/><br/><b>Todas as notícias dessa categoria ficarão invisíveis para os leitores.</b><br/><br/>Confirma operação?', function(r){
+					if(r){
+						location.href = "{{ path('adm_categorias_delete') }}/" + id;
+					}
+				});
+			});
+
+		});
+	</script>
+{% endblock %}

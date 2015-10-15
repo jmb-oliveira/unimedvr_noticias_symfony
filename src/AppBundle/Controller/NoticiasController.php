@@ -11,7 +11,7 @@ class NoticiasController extends Controller
 {
     /**
      * @Route("/{page}/{search}", defaults={"page" = 1, "search" = "todas"}, name="noticias_home", requirements={
-     *     "page": "^[0-9]+?$"
+     *     "page": "\d+"
      * })
      */
     public function indexAction($page, $search)
