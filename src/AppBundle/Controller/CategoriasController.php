@@ -19,7 +19,7 @@ class CategoriasController extends Controller
 
         $itemsPerPage = 5;
     	$paginator = $this->get('knp_paginator');
-    	$pagination = $paginator->paginate($repo->getCategorias(), $page, 5);
+    	$pagination = $paginator->paginate($repo->getCategorias(), $page, $itemsPerPage);
         $maxPage = ($pagination->getTotalItemCount() > 0) ? ceil($pagination->getTotalItemCount() / $itemsPerPage) : 1;
 
         if($page > $maxPage){
