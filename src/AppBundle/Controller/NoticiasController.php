@@ -10,11 +10,11 @@ use AppBundle\Entity\Noticia;
 class NoticiasController extends Controller
 {
     /**
-     * @Route("/{search}/{page}", defaults={"search" = "todas", "page" = 1}, name="noticias_home", requirements={
-     *     "search": "^(.(?<!admin))*?$"
+     * @Route("/{page}/{search}", defaults={"page" = 1, "search" = "todas"}, name="noticias_home", requirements={
+     *     "page": "^[0-9]+?$"
      * })
      */
-    public function indexAction($search, $page)
+    public function indexAction($page, $search)
     {
         $request = Request::createFromGlobals();
 
